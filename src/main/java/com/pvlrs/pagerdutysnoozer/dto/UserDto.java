@@ -17,9 +17,10 @@ public class UserDto {
 
         private String id;
         private String name;
+        private String incidentNote;
 
         public static UserDetailDto fromUser(User user) {
-            return new UserDetailDto(user.getId(), user.getName());
+            return new UserDetailDto(user.getId(), user.getName(), user.getIncidentNote());
         }
     }
 }

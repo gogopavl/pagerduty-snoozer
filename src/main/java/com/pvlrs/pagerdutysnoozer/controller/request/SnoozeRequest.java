@@ -8,5 +8,6 @@ import java.util.List;
 public class SnoozeRequest {
 
     private List<String> userIds;
+    private String incidentNote;
     private Boolean enableSnoozing;
 }

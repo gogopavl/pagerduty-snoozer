@@ -51,8 +51,10 @@ public record SnoozingServiceImpl(UserService userService,
                 .forEach(userId -> {
                     pagerDutyClient.getUserDetails(userId.trim()).ifPresent(presentUser -> {
                         UserDetailDto userDetailDto = presentUser.getUser();
-                        pagerDutyUsers.add(User.builder().id(userDetailDto.getId())
-                                .name(userDetailDto.getName()).build());
+                        pagerDutyUsers.add(User.builder()
+                                .id(userDetailDto.getId())
+                                .name(userDetailDto.getName())
+                                .incidentNote(snoozeRequest.getIncidentNote()).build());
                     });
                 });
         return pagerDutyUsers;
@@ -79,6 +81,8 @@ public record SnoozingServiceImpl(UserService userService,
 
             if (userHasTriggeredIncidents) {
                 IncidentsDto acknowledgedIncidents = acknowledgeTriggeredIncidents(triggeredIncidents);
+                // todo: add note to incidents.
+                //  Reference: https://developer.pagerduty.com/api-reference/b3A6Mjc0ODE1MA-create-a-note-on-an-incident
                 snoozeAcknowledgedIncidents(onCalls, acknowledgedIncidents);
             }
         });
